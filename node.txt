@@ -1,0 +1,6 @@
+1、在github上创建仓库
+
+2、然后clone到本地
+
+
+3、 goland模式选用 go mod模式 ，创建go.mod文件
