@@ -12,7 +12,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/stretchr/testify v1.3.0 // indirect
 	github.com/ugorji/go v1.1.4 // indirect
-	github.com/yakaa/log4g v1.1.6
+	github.com/yakaa/log4g v1.1.7
 	golang.org/x/net v0.0.0-20190501004415-9ce7a6920f09 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
