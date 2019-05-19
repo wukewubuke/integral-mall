@@ -15,3 +15,10 @@ github.com/gin-gonic/gin v1.3.0
 
 4、 如果不使用引用版本号， 可以吧引用直接写入到import中，然后使用
 go mod tidy ，系统会自己下载最新版本的第三方包
+
+
+
+
+5、grpc安装使用
+https://github.com/protocolbuffers/protobuf/releases 下载对应的系统版本，放到$GOPATH/bin目录下
+
