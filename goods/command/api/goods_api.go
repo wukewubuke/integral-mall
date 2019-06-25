@@ -11,11 +11,12 @@ import (
 	"github.com/yakaa/log4g"
 	"io/ioutil"
 	"log"
+	 "my-integral-mall/common/middleware"
 	"my-integral-mall/common/rpcxclient/integralrpcmodel"
-	"my-integral-mall/user/command/api/config"
-	"my-integral-mall/user/controller"
-	"my-integral-mall/user/logic"
-	"my-integral-mall/user/model"
+	"my-integral-mall/goods/command/api/config"
+	"my-integral-mall/goods/controller"
+	"my-integral-mall/goods/logic"
+	"my-integral-mall/goods/model"
 )
 
 var configFile = flag.String("f", "config/config.json", "use config")
@@ -59,17 +60,20 @@ func main() {
 
 
 
-	userModel := model.NewUserModel(engine, client, conf.Mysql.Table.User)
-	userLogic := logic.NewUserLogic(userModel, client, integralRpcModel)
-	userController := controller.NewUserController(userLogic)
+	goodsModel := model.NewGoodsModel(engine, client, conf.Mysql.Table.Goods)
+	goodsLogic := logic.NewGoodsLogic(goodsModel, integralRpcModel)
+	goodsController := controller.NewGoodsController(goodsLogic)
 
+	middleware := middleware.NewAuthorization(client)
 
 
 	r := gin.Default()
-	userGroup := r.Group("/user")
+	r.Use(middleware.Auth)
+	goodsGroup := r.Group("/goods")
 	{
-		userGroup.POST("/register",userController.Register)
-		userGroup.POST("/login",userController.Login)
+		goodsGroup.POST("/search",goodsController.GoodsSearch)
+		goodsGroup.POST("/list",goodsController.GoodsSearch)
+		goodsGroup.POST("/order",goodsController.GoodsOrder)
 	}
 
 

@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package protos;
+
+//protoc --go_out=plugins=grpc:. *.proto
+message AddIntegralRequest {
+    int64 userId = 1;
+    int64 integral = 2;
+}
+
+message IntegralResponse {
+    int64 userId = 1;
+    int64 integral = 2;
+}
+
+
+message ConsumerIntegralRequest {
+    int64 userId = 1;
+    int64 consumerIntegral = 2;   //消费多少积分
+}
+
+message FindOneByUserIdRequest {
+    int64 userId = 1;
+}
+
+
+
+
+
+
+
+
+
+service IntegralRpc{
+    rpc AddIntegral(AddIntegralRequest)returns(IntegralResponse);
+    rpc ConsumerIntegral(ConsumerIntegralRequest)returns(IntegralResponse);  //消费积分
+    rpc FindOneByUserId(FindOneByUserIdRequest)returns (IntegralResponse);
+}

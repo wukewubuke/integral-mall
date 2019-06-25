@@ -1,0 +1,26 @@
+{
+  "Mode": "debug",
+  "Mysql": {
+    "DataSource": "root:123456@tcp(127.0.0.1:3306)/integral?charset=utf8",
+    "Table": {
+      "Integral": "integral"
+    }
+  },
+  "Redis": {
+    "DataSource": "127.0.0.1:6379",
+    "Auth": "123456"
+  },
+  "RpcServerConfig": {
+    "Schema": "black",
+    "ServerName" : "integral-rpc",
+    "ServerAddress": ":9092",
+    "Endpoints": [
+      "127.0.0.1:2379"
+    ]
+  },
+  "RabbitMq": {
+    "DataSource": "amqp://guest:guest@127.0.0.1:5672",
+    "VirtualHost": "",
+    "QueueName": "integral"
+  }
+}

@@ -1,10 +1,10 @@
 {
   "Mode": "debug",
-  "Port": ":9000",
+  "Port": ":9001",
   "Mysql": {
-    "DataSource": "root:123456@tcp(127.0.0.1:3306)/user?charset=utf8",
+    "DataSource": "root:123456@tcp(127.0.0.1:3306)/goods?charset=utf8",
     "Table": {
-      "User": "user"
+      "Goods": "goods"
     }
   },
   "Redis": {

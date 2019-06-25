@@ -5,16 +5,17 @@ import (
 )
 
 type Config struct {
+	RpcServerConfig *rpc_config.ServiceConf
+
 	Mode string
-	Port string
+
 
 	Mysql struct {
 		DataSource string
 		Table      struct {
-			User string
+			Integral string
 		}
 	}
-
 	Redis struct {
 		DataSource string
 		Auth       string
@@ -22,6 +23,6 @@ type Config struct {
 	RabbitMq struct {
 		DataSource  string
 		VirtualHost string
+		QueueName   string
 	}
-	IntegralRpc *rpc_config.ClientConf
 }

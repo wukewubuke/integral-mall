@@ -22,3 +22,11 @@ go mod tidy ，系统会自己下载最新版本的第三方包
 5、grpc安装使用
 https://github.com/protocolbuffers/protobuf/releases 下载对应的系统版本，放到$GOPATH/bin目录下
 
+
+安装第三方库：go get github.com/golang/protobuf/protoc-gen-go
+
+生成proto go文件：protoc --go_out=plugins=grpc:. user.proto
+
+
+6、rabbitmq 库地址
+go get github.com/streadway/amqp

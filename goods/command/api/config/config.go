@@ -11,7 +11,7 @@ type Config struct {
 	Mysql struct {
 		DataSource string
 		Table      struct {
-			User string
+			Goods string
 		}
 	}
 

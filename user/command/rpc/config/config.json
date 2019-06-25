@@ -1,6 +1,5 @@
 {
   "Mode": "debug",
-  "Port": ":9000",
   "Mysql": {
     "DataSource": "root:123456@tcp(127.0.0.1:3306)/user?charset=utf8",
     "Table": {
@@ -11,12 +10,10 @@
     "DataSource": "127.0.0.1:6379",
     "Auth": "123456"
   },
-  "RabbitMq": {
-    "DataSource": "amqp://guest:guest@127.0.0.1:5672",
-    "VirtualHost": ""
-  },
-  "IntegralRpc": {
-    "Target" : "black:///integral-rpc",
+  "RpcServerConfig": {
+    "Schema": "black",
+    "ServerName" : "user-rpc",
+    "ServerAddress": ":9091",
     "Endpoints": [
       "127.0.0.1:2379"
     ]

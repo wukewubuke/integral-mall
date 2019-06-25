@@ -9,20 +9,19 @@ import (
 	"github.com/go-xorm/xorm"
 	"github.com/yakaa/grpcx"
 	"github.com/yakaa/log4g"
+	"google.golang.org/grpc"
 	"io/ioutil"
 	"log"
-	"my-integral-mall/common/rpcxclient/integralrpcmodel"
-	"my-integral-mall/user/command/api/config"
-	"my-integral-mall/user/controller"
-	"my-integral-mall/user/logic"
-	"my-integral-mall/user/model"
+	"my-integral-mall/integral/command/rpc/config"
+	"my-integral-mall/integral/logic"
+	"my-integral-mall/integral/model"
+	"my-integral-mall/integral/protos"
 )
 
 var configFile = flag.String("f", "config/config.json", "use config")
 
 func main() {
 	flag.Parse()
-
 
 	var conf config.Config
 
@@ -41,6 +40,7 @@ func main() {
 
 	//初始化mysql  xorm
 	engine, err := xorm.NewEngine("mysql", conf.Mysql.DataSource)
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -50,29 +50,25 @@ func main() {
 		Password: conf.Redis.Auth,
 	})
 
-	rpcClient, err := grpcx.MustNewGrpcxClient(conf.IntegralRpc)
+	integralModel := model.NewIntegralModel(engine, client, conf.Mysql.Table.Integral)
+	integralLogic, err := logic.NewIntegralLogic(conf.RabbitMq.DataSource+conf.RabbitMq.VirtualHost,
+		conf.RabbitMq.QueueName, integralModel)
+	if err != nil {
+		panic(err)
+	}
+	defer integralLogic.CloseRabbitMqConn()
+
+	rpcServer, err := grpcx.MustNewGrpcxServer(conf.RpcServerConfig, func(server *grpc.Server) {
+		protos.RegisterIntegralRpcServer(server, integralLogic)
+	})
+
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	integralRpcModel := integralrpcmodel.NewIntegralRpcModel(rpcClient)
+	integralLogic.ConsumeMessage()
+	//integralLogic.PushMessage("insert into integral(user_id,integral)values(10,20)")
 
+	log4g.Error(rpcServer.Run())
 
-
-	userModel := model.NewUserModel(engine, client, conf.Mysql.Table.User)
-	userLogic := logic.NewUserLogic(userModel, client, integralRpcModel)
-	userController := controller.NewUserController(userLogic)
-
-
-
-	r := gin.Default()
-	userGroup := r.Group("/user")
-	{
-		userGroup.POST("/register",userController.Register)
-		userGroup.POST("/login",userController.Login)
-	}
-
-
-
-	log4g.Error(r.Run(conf.Port))
 }
